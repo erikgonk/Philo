@@ -6,11 +6,11 @@
 #    By: erigonza <erigonza@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/15 18:54:49 by erigonza          #+#    #+#              #
-#    Updated: 2024/08/26 11:39:55 by erigonza         ###   ########.fr        #
+#    Updated: 2024/08/26 17:41:29 by erigonza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = 
+SRCS = philo.c utils.c
 DIR_SRC = ./src
 DIR_OBJ = $(DIR_SRC)/obj
 OBJS = $(addprefix $(DIR_OBJ)/, $(SRCS:.c=.o))
@@ -24,7 +24,10 @@ CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
 
 CC = gcc
 
-all:		${NAME}
+all:		dir ${NAME}
+
+dir: 
+				mkdir -p $(DIR_OBJ)
 
 $(DIR_OBJ)/%.o:		$(DIR_SRC)/%.c Makefile ./inc/philo.h
 				$(CC) $(FLAGS) $(INC)  -c $< -o $@
@@ -34,7 +37,7 @@ ${NAME}:	${OBJS}
 				${CC} ${CFLAGS} ${OBJS} -o ${NAME} $(INC)
 				clear
 
-clean:
+c clean:
 				${RM} ${OBJS}
 				clear
 
