@@ -6,7 +6,7 @@
 #    By: erigonza <erigonza@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/15 18:54:49 by erigonza          #+#    #+#              #
-#    Updated: 2024/08/26 17:41:29 by erigonza         ###   ########.fr        #
+#    Updated: 2024/08/27 16:03:52 by erigonza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ RM		 = rm -fr
 
 INC = -I ./inc/
 
-CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=thread
 
 CC = gcc
 
@@ -31,7 +31,6 @@ dir:
 
 $(DIR_OBJ)/%.o:		$(DIR_SRC)/%.c Makefile ./inc/philo.h
 				$(CC) $(FLAGS) $(INC)  -c $< -o $@
-				clear
 
 ${NAME}:	${OBJS}
 				${CC} ${CFLAGS} ${OBJS} -o ${NAME} $(INC)
