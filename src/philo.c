@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:33:37 by erigonza          #+#    #+#             */
-/*   Updated: 2024/08/27 16:17:05 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/08/29 09:57:49 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ void	ft(void *arg)
 	num =  (int *)arg;
 	while (++i < 1000000)
 	{
-		pthread_mutex_lock(&num)
+		pthread_mutex_lock(&num);
 		(*num)++;
+		pthread_mutex_unlock(&num);
 	}
 }
 
@@ -41,25 +42,24 @@ int	main(int argc, char *argv[])
 	if (ft_parsing(argc, argv) == -1)
 		return (1);
 	ft_save_args(&p, argv);
-
 	data = malloc(sizeof(t_data));
+	if (!data)
+		return (0);
+	pthread_mutex_init(&data->mutex, NULL);
 	data->num = 0;
-	if (!num)
-		exit(0);
-	*num = 0;
-	if (pthread_create(&t1, NULL, ft, num))
+	if (pthread_create(&t1, NULL, ft, data->num))
 	{
-		free(data);
 		exit(1);
 	}
-	if (pthread_create(&t2, NULL, ft, num))
+	if (pthread_create(&t2, NULL, ft, data->num))
 	{
-		free(data);
 		exit(1);
 	}
-	if (pthread_join(t1, NULL))
+		printf("hola\n");
+	if (pthread_join(&t1, NULL))
+	{
 		exit (1);
+	}
 	printf("Num --> %d\n", data->num);
-	free(data);
 	return (0);
 }
