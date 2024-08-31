@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:36:34 by erigonza          #+#    #+#             */
-/*   Updated: 2024/08/26 17:40:45 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/08/31 15:34:03 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,28 +47,33 @@ int	ft_parsing(int argc, char *argv[])
 	i = 0;
 	if (argc != 5 && argc != 6)
 	{
-		printf("error\nargs: we need 4-5 args to work\n");
+		printf(RED"ERROR\nargs: we need 4-5 args to work\n", RESET);
+		return (-1);
+	}
+	if (argv[1] <= 0)
+	{
+		printf(RED"ERROR\narg_1: philosophers required\n", RESET);
 		return (-1);
 	}
 	while (argv[++i])
 	{
 		if (ft_atoll(argv[i]) < 0)
 		{
-			printf("error\nargs: %s not valid\n", argv[i]);
+			printf(RED"ERROR\nargs: %s not valid\n", argv[i], RESET);
 			return (-1);
 		}
 	}
 	return (0);
 }
 
-void	ft_save_args(t_philo *p, char *argv[])
+void	ft_save_args(t_data *data, char *argv[])
 {
-	p->num = ft_atoll(argv[1]);
-	p->time = ft_atoll(argv[2]);
-	p->eat = ft_atoll(argv[3]);
-	p->sleep = ft_atoll(argv[4]);
+	data->num = ft_atoll(argv[1]);
+	data->time = ft_atoll(argv[2]);
+	data->eat = ft_atoll(argv[3]);
+	data->sleep = ft_atoll(argv[4]);
 	if (argv[5])
-		p->times_eat = ft_atoll(argv[5]);
+		data->times_eat = ft_atoll(argv[5]);
 	else
-		p->times_eat = -1;
+		data->times_eat = -1;
 }

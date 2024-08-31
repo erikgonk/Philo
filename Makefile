@@ -6,11 +6,11 @@
 #    By: erigonza <erigonza@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/15 18:54:49 by erigonza          #+#    #+#              #
-#    Updated: 2024/08/29 12:02:10 by erigonza         ###   ########.fr        #
+#    Updated: 2024/08/31 15:23:35 by erigonza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = philo.c utils.c
+SRCS = philo.c utils.c libft.c
 DIR_SRC = ./src
 DIR_OBJ = $(DIR_SRC)/obj
 OBJS = $(addprefix $(DIR_OBJ)/, $(SRCS:.c=.o))
