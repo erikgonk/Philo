@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:41:46 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/02 12:51:29 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:03:28 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,10 @@ typedef struct s_data
 	t_philo				*p;
 }		t_data;
 
-long long int		ft_atoll(char *str);
 int					ft_parsing(int argc, char *argv[]);
-void				ft_save_args(t_data *data, char *argv[]);
 // libft
 void				ft_bzero(void *s, size_t n);
+int					ft_strcmp(char *s1, char *s2);
+long long int		ft_atoll(char *str);
+
 #endif

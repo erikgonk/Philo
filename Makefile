@@ -6,11 +6,11 @@
 #    By: erigonza <erigonza@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/15 18:54:49 by erigonza          #+#    #+#              #
-#    Updated: 2024/09/02 11:00:02 by erigonza         ###   ########.fr        #
+#    Updated: 2024/09/02 17:03:57 by erigonza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = philo.c utils.c libft.c
+SRCS = philo.c utils.c
 DIR_SRC = ./src
 DIR_OBJ = $(DIR_SRC)/obj
 OBJS = $(addprefix $(DIR_OBJ)/, $(SRCS:.c=.o))
@@ -20,7 +20,7 @@ RM		 = rm -fr
 
 INC = -I ./inc/
 
-CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=thread
+CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
 
 CC = gcc
 
