@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:41:46 by erigonza          #+#    #+#             */
-/*   Updated: 2024/08/31 15:31:53 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/02 12:51:29 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,20 @@
 
 typedef struct s_philo
 {
-	int		flag;
+	int					flag;// if 0 works, if 1 everbody died
+	unsigned int		t_end;
+	long long int		id;
+	long long int		time;
+	long long int		eat;
+	long long int		sleep;
+	long long int		times_eat;
+	
 }		t_philo;
 
 typedef struct s_data
 {
 	unsigned int		t_start;
-	unsigned int		t_end;
 	long long int		num;
-	long long int		time;
-	long long int		eat;
-	long long int		sleep;
-	long long int		times_eat;
 	t_philo				*p;
 }		t_data;
 

@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:36:34 by erigonza          #+#    #+#             */
-/*   Updated: 2024/08/31 15:34:03 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/02 12:50:15 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,4 @@ int	ft_parsing(int argc, char *argv[])
 		}
 	}
 	return (0);
-}
-
-void	ft_save_args(t_data *data, char *argv[])
-{
-	data->num = ft_atoll(argv[1]);
-	data->time = ft_atoll(argv[2]);
-	data->eat = ft_atoll(argv[3]);
-	data->sleep = ft_atoll(argv[4]);
-	if (argv[5])
-		data->times_eat = ft_atoll(argv[5]);
-	else
-		data->times_eat = -1;
 }
