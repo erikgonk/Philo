@@ -6,11 +6,8 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:41:46 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/02 17:03:28 by erigonza         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#ifndef PHILO_H
+/*   Updated: 2024/09/04 12:42:39 by erigonza         ###   ########.fr       */
+/*                                                                            */ /* ************************************************************************** */ #ifndef PHILO_H
 # define PHILO_H
 
 # define BLUE "\x1B[34m"
@@ -40,6 +37,15 @@
 // gettimeofday
 # include <sys/time.h>
 
+enum
+{
+	FORK,
+	EAT,
+	SLEEP,
+	THINK,
+	DIE,
+};
+
 typedef struct s_philo
 {
 	int					flag;// if 0 works, if 1 everbody died
@@ -54,12 +60,18 @@ typedef struct s_philo
 
 typedef struct s_data
 {
+	pthread_mutex_t		fork1;
+	pthread_mutex_t		fork2;
+	pthread_mutex_t		num_meals;
 	unsigned int		t_start;
-	long long int		num;
+	long long int		id;// from 0 to x philos
 	t_philo				*p;
 }		t_data;
 
 int					ft_parsing(int argc, char *argv[]);
+// exec
+unsigned int	ft_get_current_time(void);
+unsigned int	ft_get_moment_time(t_data *data);
 // libft
 void				ft_bzero(void *s, size_t n);
 int					ft_strcmp(char *s1, char *s2);

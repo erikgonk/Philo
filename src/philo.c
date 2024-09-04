@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:08:15 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/02 17:07:44 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/04 12:44:01 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	ft_save_args(t_data *data, char *argv[])
 
 	p = data->p;
 	i = 0;
-	data->num = ft_atoll(argv[1]);
-	while (++i <= data->num)
+	data->id = ft_atoll(argv[1]);
+	while (++i <= data->id)
 	{
 		p->time = ft_atoll(argv[2]);
 		p->eat = ft_atoll(argv[3]);
@@ -31,10 +31,12 @@ int	ft_save_args(t_data *data, char *argv[])
 			p->times_eat = -1;
 		if (p->time > 200 || p->eat > 200 || p->sleep > 200)
 		{
-			printf(RED"ERROR\nnum: over the limit (200)%s\n", RESET);
+			printf(RED"ERROR\nid: over the limit (200)%s\n", RESET);
 			return (1);
 		}
 	}
+	data->t_start = ft_get_current_time();
+	return (0);
 }
 
 void	ft_create_threats(t_data *data)
@@ -50,15 +52,10 @@ int	main(int argc, char *argv[])
 	if (ft_parsing(argc, argv) == -1)
 		return (1);
 	ft_bzero(&data, sizeof(data));
-	data.p = malloc(data.num * sizeof(t_philo));
-	if (!ft_save_args(&data, argv))
+	data.p = malloc(data.id * sizeof(t_philo));
+	if (ft_save_args(&data, argv))
 		return (1);
-// arus parsed and saved
-	gettimeofday(&tmp, NULL);
-	printf("time => %d\n", tmp);
-	usleep(1000000);
-	gettimeofday(&tmp, NULL);
-	printf("time => %d\n", tmp);
+// args parsed and saved
 	ft_create_threats(&data);
 	free(data.p);
 }
