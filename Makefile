@@ -6,7 +6,7 @@
 #    By: erigonza <erigonza@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/15 18:54:49 by erigonza          #+#    #+#              #
-#    Updated: 2024/09/04 12:44:10 by erigonza         ###   ########.fr        #
+#    Updated: 2024/09/05 11:50:32 by erigonza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,6 @@ $(DIR_OBJ)/%.o:		$(DIR_SRC)/%.c Makefile ./inc/philo.h
 
 ${NAME}:	${OBJS}
 				${CC} ${CFLAGS} ${OBJS} -o ${NAME} $(INC)
-				clear
 
 c clean:
 				${RM} ${OBJS}
