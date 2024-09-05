@@ -6,13 +6,13 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:08:15 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/05 13:35:37 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/05 13:57:52 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int	ft_create_threats(t_data *data, char  *argv[], int i)
+int	ft_save_normi(t_data *data, char  *argv[], int i)
 {
 	if (data->num < 1)
 		return (ft_exit("ERROR:\nargs: not enough philosophers\n"));
@@ -33,9 +33,10 @@ int	ft_save_args(t_data *data, char *argv[], int i)
 
 	p = data->p;
 	data->num = ft_atoll(argv[1]);
+	data->t_start = ft_get_current_time();
 	while (++i < data->num)
 	{
-		if (ft_create_threats(data, argv, i) == 1)
+		if (ft_save_normi(data, argv, i) == 1)
 			return (1);
 		if (data->p[i].time > 200 || data->p[i].eat > 200 ||
 				data->p[i].sleep > 200)
@@ -43,13 +44,19 @@ int	ft_save_args(t_data *data, char *argv[], int i)
 			free(data->p);
 			return (ft_exit("ERROR\nid: over the limit (200)\n"));
 		}
-		if (pthread_mutex_init(data->p[i].fork1, NULL))
+		if (pthread_mutex_init(&data->p[i].fork1, NULL))
 			return (ft_exit("ERROR: init thread"));
-		if (pthread_mutex_init(data->p[i].last_meal, NULL))
+		if (pthread_mutex_init(&data->p[i].last_meal, NULL))
 			return (ft_exit("ERROR: init thread"));
 		if (i > 0)
 			data->p[i].fork2 = data->p[i - 1].fork1;
 	}
+	return (0);
+}
+
+int	ft_start_routine(t_data *data)
+{
+	ft_start_routine(data);
 	return (0);
 }
 
@@ -65,8 +72,9 @@ int	main(int argc, char *argv[])
 		return (ft_exit("ERROR:\nmalloc\n"));
 	if (ft_save_args(&data, argv, -1))
 		return (1);
-	data.t_start = ft_get_current_time();
-// args parsed and saved
+// args parsed and saved/init mutexes
+	if (ft_start_routine(&data))
+		return (1);
 	free(data.p);
 	return (0);
 }

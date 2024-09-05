@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:41:46 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/05 13:34:35 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/05 13:57:17 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,10 @@ enum
 
 typedef struct s_philo
 {
-	pthread_mutex_t *restrict	fork1;
-	pthread_mutex_t *restrict	fork2;
-	pthread_mutex_t *restrict	last_meal;
+	pthread_mutex_t		fork1;
+	pthread_mutex_t		fork2;
+	pthread_mutex_t		last_meal;
+	pthread_t			p;
 	int					d_flag;// if 0 works, if 1 everbody died
 	unsigned int		t_end;
 	long long int		id;
@@ -71,6 +72,8 @@ typedef struct s_data
 	t_philo				*p;
 }		t_data;
 
+// routine
+int						ft_start_routine(t_data *data);
 // utils exec
 unsigned int			ft_get_current_time(void);
 unsigned int			ft_get_moment_time(t_data *data);
