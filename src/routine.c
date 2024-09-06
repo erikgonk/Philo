@@ -6,13 +6,13 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:54:03 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/05 13:55:26 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/06 11:12:27 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int	ft_start_routine(t_data *data)
+int	ft_routine(t_data *data)
 {
 	return (0);
 }

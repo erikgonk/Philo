@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:36:34 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/05 13:00:51 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/06 11:08:30 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	ft_parsing(int argc, char *argv[])
 
 	i = 0;
 	if (argc != 5 && argc != 6)
-		return (ft_exit("ERROR\nargs: we need 4-5 args to work\n"));
+		return (ft_exit(E_ARGS));
 	if (argv[1] <= 0)
-		return (ft_exit("ERROR\narg_1: philosophers required\n"));
+		return (ft_exit(E_ARG1));
 	while (argv[++i])
 	{
 		if (ft_atoll(argv[i]) < 0)

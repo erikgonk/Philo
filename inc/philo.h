@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:41:46 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/05 13:57:17 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/06 12:44:36 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@
 # define ACT_SLEEP "\x1B[36m[%u] %d is sleeping%s\n"
 # define ACT_THINK "\x1B[33m[%u] %d is thinking%s\n"
 # define ACT_DIE "\x1B[31m[%u] %d died%s\n"
+
+# define E_ID "ERROR\nid: over the limit (200)\n"
+# define E_INIT_T "ERROR: init thread\n"
+# define E_MALLOC "ERROR:\nmalloc\n"
+# define E_ARGS "ERROR\nargs: we need 4-5 args to work\n"
+# define E_ARG1 "ERROR\narg_1: philosophers required\n"
+# define E_PHILOS "ERROR:\nargs: not enough philosophers\n"
 
 // threads
 # include <pthread.h>
@@ -54,8 +61,8 @@ typedef struct s_philo
 	pthread_mutex_t		fork1;
 	pthread_mutex_t		fork2;
 	pthread_mutex_t		last_meal;
-	pthread_t			p;
-	int					d_flag;// if 0 works, if 1 everbody died
+	pthread_mutex_t		check_dead;
+	int					d_flag;// 0 alive 1 dead
 	unsigned int		t_end;
 	long long int		id;
 	long long int		time;
@@ -67,13 +74,14 @@ typedef struct s_philo
 
 typedef struct s_data
 {
+	pthread_mutex_t		print;
 	unsigned int		t_start;
 	long long int		num;
 	t_philo				*p;
 }		t_data;
 
 // routine
-int						ft_start_routine(t_data *data);
+int						ft_routine(t_data *data);
 // utils exec
 unsigned int			ft_get_current_time(void);
 unsigned int			ft_get_moment_time(t_data *data);
