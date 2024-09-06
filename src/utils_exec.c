@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:38:54 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/06 13:13:45 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/06 13:14:40 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_dead_check(t_philo p)
 	return (dead);
 }
 
-int	ft_printing(t_data *data, int i, int flag, int action)
+int	ft_printing(t_data *data, int i, int flag, char *action)
 {
 // flag => is dead?
 // action => what action am I printing
@@ -52,7 +52,7 @@ int	ft_printing(t_data *data, int i, int flag, int action)
 			data->p->d_flag = 1;
 			pthread_mutex_unlock(&data->p->check_dead);
 		}
-		printf(action, ft_get_moment_time(data), data->p[i]->id, RESET);
+		printf(action, ft_get_moment_time(data), data->p[i].id, RESET);
 	}
 	pthread_mutex_unlock(&data->print);
 	return (0);
