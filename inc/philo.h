@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:41:46 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/06 12:44:36 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/08 10:09:40 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define E_ARGS "ERROR\nargs: we need 4-5 args to work\n"
 # define E_ARG1 "ERROR\narg_1: philosophers required\n"
 # define E_PHILOS "ERROR:\nargs: not enough philosophers\n"
+# define E_CREATE "ERROR:\ncreating thread\n"
 
 // threads
 # include <pthread.h>
@@ -64,6 +65,7 @@ typedef struct s_philo
 	pthread_mutex_t		check_dead;
 	int					d_flag;// 0 alive 1 dead
 	unsigned int		t_end;
+	pthread_t			philo;
 	long long int		id;
 	long long int		time;
 	long long int		eat;
@@ -75,6 +77,8 @@ typedef struct s_philo
 typedef struct s_data
 {
 	pthread_mutex_t		print;
+	pthread_mutex_t		routine;
+	int					stop_routine;// 0 some alive 1 all dead
 	unsigned int		t_start;
 	long long int		num;
 	t_philo				*p;

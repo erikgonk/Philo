@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:38:54 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/06 13:14:40 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/08 09:55:21 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,28 @@ int	ft_printing(t_data *data, int i, int flag, char *action)
 		printf(action, ft_get_moment_time(data), data->p[i].id, RESET);
 	}
 	pthread_mutex_unlock(&data->print);
+	return (0);
+}
+
+int	ft_save_normi(t_data *data, char  *argv[], int i)
+{
+	if (data->num < 1)
+		return (ft_exit(E_PHILOS));
+	data->p[i].id = i;
+	data->p[i].time = ft_atoll(argv[2]);
+	data->p[i].eat = ft_atoll(argv[3]);
+	data->p[i].sleep = ft_atoll(argv[4]);
+	if (argv[5])
+		data->p[i].times_eat = ft_atoll(argv[5]);
+	else
+		data->p[i].times_eat = -1;
+	if (pthread_mutex_init(&data->p[i].fork1, NULL))
+		return (ft_exit(E_INIT_T));
+	if (pthread_mutex_init(&data->p[i].last_meal, NULL))
+		return (ft_exit(E_INIT_T));
+	if (pthread_mutex_init(&data->p->check_dead, NULL))
+		return (ft_exit(E_INIT_T));
+	if (i > 0)
+		data->p[i].fork2 = data->p[i - 1].fork1;
 	return (0);
 }
