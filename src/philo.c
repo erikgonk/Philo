@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:08:15 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/08 10:38:00 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/08 15:19:52 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	ft_save_args(t_data *data, char *argv[], int i)
 
 	p = data->p;
 	data->num = ft_atoll(argv[1]);
-	data->t_start = ft_get_current_time();
 	if (pthread_mutex_init(&data->routine, NULL))
 		return (ft_exit(E_INIT_T));
 	if (pthread_mutex_init(&data->print, NULL))
@@ -33,7 +32,10 @@ int	ft_save_args(t_data *data, char *argv[], int i)
 			free(data->p);
 			return (ft_exit(E_ID));
 		}
+		p[i].t_start = ft_get_current_time();
 	}
+	if (data->num <= 0)
+		return (ft_exit(E_ARGS_NUM));
 	return (0);
 }
 
@@ -45,14 +47,17 @@ int	ft_start_routine(t_data *data)
 	pthread_mutex_lock(&data->routine);
 	while (++i < data->num)
 	{
-		if (pthread_create(&data->p[i]->philo, NULL, &ft_routine,
-				&data->philo[i]))
+		if (pthread_create(&data->p[i].philo, NULL, &ft_routine,
+				&data->p[i]))
 		{
 			data->stop_routine = 1;
 			ft_exit(E_CREATE);
 		}
 	}
 	pthread_mutex_unlock(&data->routine);
+	i = -1;
+	while (++i < data->num)
+		pthread_join(data->p[i].philo, NULL);
 	return (0);
 }
 

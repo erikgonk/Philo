@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:41:46 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/08 10:09:40 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/08 15:09:17 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@
 # define RED "\x1B[31m"
 # define WHITE "\x1b[37m"
 
-# define ACT_FORK "[%u] %d has taken a fork%s\n"
-# define ACT_EAT "\x1B[32m[%u] %d is eating%s\n"
-# define ACT_SLEEP "\x1B[36m[%u] %d is sleeping%s\n"
-# define ACT_THINK "\x1B[33m[%u] %d is thinking%s\n"
-# define ACT_DIE "\x1B[31m[%u] %d died%s\n"
+# define ACT_FORK "[%u] %lld has taken a fork%s\n"
+# define ACT_EAT "\x1B[32m[%u] %lld is eating%s\n"
+# define ACT_SLEEP "\x1B[36m[%u] %lld is sleeping%s\n"
+# define ACT_THINK "\x1B[33m[%u] %lld is thinking%s\n"
+# define ACT_DIE "\x1B[31m[%u] %lld died%s\n"
 
 # define E_ID "ERROR\nid: over the limit (200)\n"
 # define E_INIT_T "ERROR: init thread\n"
@@ -35,6 +35,7 @@
 # define E_ARG1 "ERROR\narg_1: philosophers required\n"
 # define E_PHILOS "ERROR:\nargs: not enough philosophers\n"
 # define E_CREATE "ERROR:\ncreating thread\n"
+# define E_ARGS_NUM "ERROR\nargs: 0 not valid\n"
 
 // threads
 # include <pthread.h>
@@ -59,11 +60,13 @@ enum
 
 typedef struct s_philo
 {
+	pthread_mutex_t		print;
 	pthread_mutex_t		fork1;
 	pthread_mutex_t		fork2;
 	pthread_mutex_t		last_meal;
 	pthread_mutex_t		check_dead;
 	int					d_flag;// 0 alive 1 dead
+	unsigned int		t_start;
 	unsigned int		t_end;
 	pthread_t			philo;
 	long long int		id;
@@ -71,6 +74,7 @@ typedef struct s_philo
 	long long int		eat;
 	long long int		sleep;
 	long long int		times_eat;
+	struct s_data		*data;
 	
 }		t_philo;
 
@@ -79,16 +83,18 @@ typedef struct s_data
 	pthread_mutex_t		print;
 	pthread_mutex_t		routine;
 	int					stop_routine;// 0 some alive 1 all dead
-	unsigned int		t_start;
 	long long int		num;
 	t_philo				*p;
 }		t_data;
 
 // routine
-int						ft_routine(t_data *data);
+void					*ft_routine(void *data);
 // utils exec
 unsigned int			ft_get_current_time(void);
-unsigned int			ft_get_moment_time(t_data *data);
+unsigned int			ft_get_moment_time(t_philo *p);
+int						ft_printing(t_data *data, int i, int flag, char *action);
+int						ft_printing(t_data *data, int i, int flag, char *action);
+int						ft_save_normi(t_data *data, char  *argv[], int i);
 // utils
 int						ft_exit(char *error);
 int						ft_parsing(int argc, char *argv[]);
