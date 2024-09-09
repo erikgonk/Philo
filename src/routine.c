@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:54:03 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/08 15:20:17 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/09 15:09:19 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,12 @@ void	*ft_routine(void *data)
 			ft_print_action(p, ACT_DIE);
 			break ;
 		}
-// sleep
-// think
+		if (p->times_eat != 0)
+		{
+			ft_print_action(p, ACT_SLEEP);
+			usleep(p->sleep * 1000);
+			ft_print_action(p, ACT_THINK);
+		}
 	}
 	pthread_mutex_unlock(&p->check_dead);
 }
