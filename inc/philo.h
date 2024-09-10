@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:41:46 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/08 15:09:17 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/10 12:14:17 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_data
 
 // routine
 void					*ft_routine(void *data);
+void					ft_print_action(t_philo *p, char *action);
 // utils exec
 unsigned int			ft_get_current_time(void);
 unsigned int			ft_get_moment_time(t_philo *p);

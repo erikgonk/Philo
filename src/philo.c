@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:08:15 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/08 15:19:52 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/10 12:24:27 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,26 @@ int	ft_start_routine(t_data *data)
 	return (0);
 }
 
+void	ft_dead_checker(t_data *data)
+{
+	t_philo		*p;
+	int			i;
+
+	p = data->p;
+	i = -1;
+	pthread_mutex_lock(&p->check_dead);
+	while (data->num > ++i && p[i].t_end != 1)
+	{
+		if (p[i].t_end == 1)
+		{
+			printf(BLUE"entra\n\n\n%s", RESET);
+			ft_print_action(p, ACT_DIE);
+			break ;
+		}
+	}
+	pthread_mutex_unlock(&p->check_dead);
+}
+
 int	main(int argc, char *argv[])
 {
 	t_data				data;
@@ -76,6 +96,7 @@ int	main(int argc, char *argv[])
 // args parsed and saved & init mutexes
 	if (ft_start_routine(&data))
 		return (1);
+	ft_dead_checker(&data);
 	free(data.p);
 	return (0);
 }
