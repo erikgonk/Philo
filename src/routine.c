@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:54:03 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/10 12:11:48 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:01:12 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,11 @@ void	*ft_routine(void *data)
 		if (p->times_eat < 0)
 		{
 			p->t_end = 1;
-			printf("sale\n");
 			break ;
 		}
-		if (p->times_eat != 0)
-		{
-			ft_print_action(p, ACT_SLEEP);
-			usleep(p->sleep * 1000);
-			ft_print_action(p, ACT_THINK);
-		}
+		ft_print_action(p, ACT_SLEEP);
+		usleep(p->sleep * 1000);
+		ft_print_action(p, ACT_THINK);
 	}
 	pthread_mutex_unlock(&p->check_dead);
 }
