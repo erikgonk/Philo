@@ -6,11 +6,23 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:08:15 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/10 12:24:27 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:56:03 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
+
+int	ft_exit_free(t_data *data, char *error)
+{
+	if (data->p)
+		free(data->p);
+	if (error)
+	{
+		printf(RED);
+		printf("%s%s", error, RESET);
+	}
+	return (1);
+}
 
 int	ft_save_args(t_data *data, char *argv[], int i)
 {
@@ -19,23 +31,20 @@ int	ft_save_args(t_data *data, char *argv[], int i)
 	p = data->p;
 	data->num = ft_atoll(argv[1]);
 	if (pthread_mutex_init(&data->routine, NULL))
-		return (ft_exit(E_INIT_T));
+		return (ft_exit_free(data, E_INIT_T));
 	if (pthread_mutex_init(&data->print, NULL))
-		return (ft_exit(E_INIT_T));
+		return (ft_exit_free(data, E_INIT_T));
+	if (data->num > 200)
+		return (ft_exit_free(data, E_ID));
 	while (++i < data->num)
 	{
 		if (ft_save_normi(data, argv, i) == 1)
 			return (1);
-		if (data->p[i].time > 200 || data->p[i].eat > 200 ||
-				data->p[i].sleep > 200)
-		{
-			free(data->p);
-			return (ft_exit(E_ID));
-		}
 		p[i].t_start = ft_get_current_time();
 	}
+	data->p[0].fork2 = &data->p[data->num].fork1;
 	if (data->num <= 0)
-		return (ft_exit(E_ARGS_NUM));
+		return (ft_exit_free(data, E_ARGS_NUM));
 	return (0);
 }
 
@@ -51,7 +60,7 @@ int	ft_start_routine(t_data *data)
 				&data->p[i]))
 		{
 			data->stop_routine = 1;
-			ft_exit(E_CREATE);
+			ft_exit_free(data, E_CREATE);
 		}
 	}
 	pthread_mutex_unlock(&data->routine);
@@ -69,14 +78,15 @@ void	ft_dead_checker(t_data *data)
 	p = data->p;
 	i = -1;
 	pthread_mutex_lock(&p->check_dead);
-	while (data->num > ++i && p[i].t_end != 1)
+	while (data->num > ++i)
 	{
+		pthread_mutex_lock(&p->fork1);
 		if (p[i].t_end == 1)
 		{
-			printf(BLUE"entra\n\n\n%s", RESET);
 			ft_print_action(p, ACT_DIE);
 			break ;
 		}
+		pthread_mutex_unlock(&p->fork1);
 	}
 	pthread_mutex_unlock(&p->check_dead);
 }
@@ -97,6 +107,6 @@ int	main(int argc, char *argv[])
 	if (ft_start_routine(&data))
 		return (1);
 	ft_dead_checker(&data);
-	free(data.p);
+	ft_exit_free(&data, NULL);
 	return (0);
 }
