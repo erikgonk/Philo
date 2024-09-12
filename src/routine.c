@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:54:03 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/11 15:52:09 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/12 09:56:11 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,16 @@ void	ft_eat(t_philo *p)
 	else
 		usleep(p->time * 1000);
 	pthread_mutex_unlock(&p->fork1);
+}
+
+int	ft_usleep(t_philo *p, long long int to_sleep)
+{
+// check if it dies while doing the usleep
+// if no: do the usleep and rutrn 0
+// if yes: time_to_die - actual_time < to_sleep: do time_to_die - actual_time
+// 1000 actual time
+// 1200 time to die
+// 400 time to sleep
 }
 
 void	*ft_routine(void *data)
