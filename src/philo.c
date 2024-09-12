@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:08:15 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/11 15:56:03 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/12 12:30:23 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,25 +70,29 @@ int	ft_start_routine(t_data *data)
 	return (0);
 }
 
-void	ft_dead_checker(t_data *data)
+int	ft_dead_checker(t_philo **tmp)
 {
 	t_philo		*p;
 	int			i;
+	int			flag;
 
-	p = data->p;
+	p = *tmp;
 	i = -1;
+	flag = 0;
 	pthread_mutex_lock(&p->check_dead);
-	while (data->num > ++i)
+	while (++i < p->num)
 	{
 		pthread_mutex_lock(&p->fork1);
 		if (p[i].t_end == 1)
 		{
 			ft_print_action(p, ACT_DIE);
+			flag = 1;
 			break ;
 		}
 		pthread_mutex_unlock(&p->fork1);
 	}
 	pthread_mutex_unlock(&p->check_dead);
+	return (1);
 }
 
 int	main(int argc, char *argv[])
@@ -102,11 +106,11 @@ int	main(int argc, char *argv[])
 	if (!data.p)
 		return (ft_exit(E_MALLOC));
 	if (ft_save_args(&data, argv, -1))
-		return (1);
+		return (ft_exit_free(&data, NULL));
 // args parsed and saved & init mutexes
 	if (ft_start_routine(&data))
 		return (1);
-	ft_dead_checker(&data);
+	ft_dead_checker(&data.p);
 	ft_exit_free(&data, NULL);
 	return (0);
 }

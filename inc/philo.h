@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:41:46 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/11 13:27:35 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/12 13:37:24 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_philo
 	unsigned int		t_start;
 	unsigned int		t_end;
 	pthread_t			philo;
+	long long int		num;
 	long long int		id;
 	long long int		time;
 	long long int		eat;
