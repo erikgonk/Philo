@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:08:15 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/13 12:42:17 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/13 13:29:29 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ int	ft_save_args(t_data *data, char *argv[], int i)
 		return (ft_exit_free(data, E_INIT_T));
 	if (data->num > 200)
 		return (ft_exit_free(data, E_ID));
+	data->time = ft_atoll(argv[2]);
+	data->eat = ft_atoll(argv[3]);
+	data->sleep = ft_atoll(argv[4]);
 	while (++i < data->num)
 	{
 		if (ft_save_normi(data, argv, i) == 1)
@@ -80,7 +83,7 @@ int	ft_dead_checker(t_philo **tmp)
 	i = -1;
 	flag = 0;
 	pthread_mutex_lock(&p->check_dead);
-	while (++i < p->num)
+	while (++i < p->data->num)
 	{
 		pthread_mutex_lock(&p->fork1);
 		if (p[i].t_end == 1)

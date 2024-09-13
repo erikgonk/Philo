@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:38:54 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/13 12:37:55 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/13 13:30:30 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_dead_check(t_philo p)
 
 	dead = 1;
 	pthread_mutex_lock(&p.check_dead);
-	if (p.d_flag == 1)
+	if (p.data->d_flag == 1)
 		dead = 0;
 	pthread_mutex_unlock(&p.check_dead);
 	return (dead);
@@ -49,7 +49,7 @@ int	ft_printing(t_data *data, int i, int flag, char *action)
 		if (flag == DIE)
 		{
 			pthread_mutex_lock(&data->p->check_dead);
-			data->p->d_flag = 1;
+			data->d_flag = 1;
 			pthread_mutex_unlock(&data->p->check_dead);
 		}
 		printf(action, ft_get_moment_time(data->p), data->p[i].id, RESET);
@@ -62,11 +62,7 @@ int	ft_save_normi(t_data *data, char  *argv[], int i)
 {
 	if (data->num < 1)
 		return (ft_exit(E_PHILOS));
-	data->p[i].num = data->num;
 	data->p[i].id = i + 1;
-	data->p[i].time = ft_atoll(argv[2]);
-	data->p[i].eat = ft_atoll(argv[3]);
-	data->p[i].sleep = ft_atoll(argv[4]);
 	data->p[i].data = data;
 	if (argv[5])
 		data->p[i].times_eat = ft_atoll(argv[5]);
