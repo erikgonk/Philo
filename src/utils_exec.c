@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:38:54 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/12 13:38:56 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/13 12:37:55 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,11 @@ int	ft_save_normi(t_data *data, char  *argv[], int i)
 	if (data->num < 1)
 		return (ft_exit(E_PHILOS));
 	data->p[i].num = data->num;
-	data->p[i].id = i;
+	data->p[i].id = i + 1;
 	data->p[i].time = ft_atoll(argv[2]);
 	data->p[i].eat = ft_atoll(argv[3]);
 	data->p[i].sleep = ft_atoll(argv[4]);
+	data->p[i].data = data;
 	if (argv[5])
 		data->p[i].times_eat = ft_atoll(argv[5]);
 	else

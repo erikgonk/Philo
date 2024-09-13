@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:41:46 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/12 13:37:24 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/13 11:16:02 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ typedef struct s_philo
 	long long int		sleep;
 	long long int		times_eat;
 	struct s_data		*data;
-	
 }		t_philo;
 
 typedef struct s_data
