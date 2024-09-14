@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:08:15 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/13 13:29:29 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/14 12:10:04 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,19 +77,18 @@ int	ft_dead_checker(t_philo **tmp)
 {
 	t_philo		*p;
 	int			i;
-	int			flag;
 
 	p = *tmp;
 	i = -1;
-	flag = 0;
 	pthread_mutex_lock(&p->check_dead);
 	while (++i < p->data->num)
 	{
 		pthread_mutex_lock(&p->fork1);
-		if (p[i].t_end == 1)
+		if (p[i].d_flag == 1)
 		{
-			ft_print_action(p, ACT_DIE);
-			flag = 1;
+			pthread_mutex_lock(&p->print);
+			printf(ACT_DIE, ft_get_moment_time(p), p[i].id, RESET);
+			pthread_mutex_unlock(&p->print);
 			break ;
 		}
 		pthread_mutex_unlock(&p->fork1);

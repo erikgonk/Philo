@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:41:46 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/13 13:24:23 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/14 12:01:44 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_philo
 	pthread_mutex_t		check_dead;
 	unsigned int		t_start;
 	unsigned int		t_end;
+	int					d_flag;// 0 alive 1 dead
 	pthread_t			philo;
 	long long int		id;
 	long long int		times_eat;
