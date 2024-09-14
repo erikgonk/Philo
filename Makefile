@@ -6,7 +6,7 @@
 #    By: erigonza <erigonza@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/15 18:54:49 by erigonza          #+#    #+#              #
-#    Updated: 2024/09/14 13:03:54 by erigonza         ###   ########.fr        #
+#    Updated: 2024/09/14 14:34:19 by erigonza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ RM		 = rm -fr
 
 INC = -I ./inc/
 
-CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address #-lpthread
+CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address -lpthread
 
 CC = gcc
 

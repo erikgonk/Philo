@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:38:54 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/14 13:00:14 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/14 16:03:47 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ unsigned int	ft_get_current_time(void)
 
 unsigned int	ft_get_moment_time(t_philo *p)
 {
-	return (ft_get_current_time() - p->t_start);
+	return (ft_get_current_time() - p->data->t_start);
 }
 
 int	ft_dead_check(t_philo p)
@@ -32,10 +32,10 @@ int	ft_dead_check(t_philo p)
 	int		dead;
 
 	dead = 1;
-	pthread_mutex_lock(&p.check_dead);
+	pthread_mutex_lock(&p.data->check_dead);
 	if (p.data->d_flag == 1)
 		dead = 0;
-	pthread_mutex_unlock(&p.check_dead);
+	pthread_mutex_unlock(&p.data->check_dead);
 	return (dead);
 }
 
@@ -48,9 +48,9 @@ int	ft_printing(t_data *data, int i, int flag, char *action)
 	{
 		if (flag == DIE)
 		{
-			pthread_mutex_lock(&data->p->check_dead);
+			pthread_mutex_lock(&data->check_dead);
 			data->d_flag = 1;
-			pthread_mutex_unlock(&data->p->check_dead);
+			pthread_mutex_unlock(&data->check_dead);
 		}
 		printf(action, ft_get_moment_time(data->p), data->p[i].id, RESET);
 	}
@@ -63,18 +63,12 @@ int	ft_save_normi(t_data *data, char  *argv[], int i)
 	if (data->num < 1)
 		return (ft_exit(E_PHILOS));
 	data->p[i].id = i + 1;
-	data->p[i].data = data;
+	data->p[i].l_meal = 0;
 	if (argv[5])
 		data->p[i].times_eat = ft_atoll(argv[5]);
 	else
 		data->p[i].times_eat = -1;
 	if (pthread_mutex_init(&data->p[i].fork1, NULL))
-		return (ft_exit(E_INIT_T));
-	if (pthread_mutex_init(&data->p[i].last_meal, NULL))
-		return (ft_exit(E_INIT_T));
-	if (pthread_mutex_init(&data->p->check_dead, NULL))
-		return (ft_exit(E_INIT_T));
-	if (pthread_mutex_init(&data->p->print, NULL))
 		return (ft_exit(E_INIT_T));
 	if (i > 0)
 		data->p[i].fork2 = &data->p[i - 1].fork1;

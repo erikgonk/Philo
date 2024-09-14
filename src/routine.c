@@ -6,41 +6,37 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:54:03 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/14 13:17:40 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/14 16:11:42 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int	ft_usleep(t_philo *p, long long int to_sleep)
+int	ft_check_philo_death(t_philo *p, unsigned int time)
 {
-	unsigned int	time;
-	unsigned int	tmp;
- 
-	tmp = 0;
-	time = ft_get_moment_time(p);
-	if (p->data->d_flag == 1)
-		return (1);
-	pthread_mutex_lock(&p->check_dead);
-	if (time > p->data->time)
+	if ((time - p->l_meal) > p->data->time)
 	{
+		printf(ACT_DIE, time, p->id, RESET);
 		p->data->d_flag = 1;
 		p->d_flag = 1;
-		pthread_mutex_unlock(&p->check_dead);
 		return (1);
 	}
-	while ((time + tmp) < p->data->time && tmp < to_sleep)
+}
+int	ft_usleep(t_philo *p, long long int to_sleep)
+{
+	unsigned int	tmp;
+	unsigned int time;
+
+	time = ft_get_moment_time(p);
+	tmp = 0;
+	if (p->data->d_flag == 1)
+		return (1);
+	while (!ft_check_philo_death(p, time) && tmp < to_sleep)
 	{
-		//printf("------------------> [%u] %u < %lld && %u < %lld\n", ft_get_moment_time(p), time + tmp, p->data->time, tmp, to_sleep);
+		//printf("------------------> [%u] %u < %lld && %u < %lld\n", ft_get_moment_time(p), p->data->t_start + tmp, p->data->time, tmp, to_sleep);
 		usleep(1000);
 		tmp += 1;
 	}
-	if (time + tmp >= p->data->time)
-	{
-		p->data->d_flag = 1;
-		p->d_flag = 1;
-	}
-	pthread_mutex_unlock(&p->check_dead);
 	return (0);
 // check if it dies while doing the usleep
 // if no: do the usleep and rutrn 0
@@ -51,9 +47,7 @@ void	ft_print_action(t_philo *p, char *action)
 {
 	if (p->data->d_flag == 1)
 		return ;
-	pthread_mutex_lock(&p->print);
 	printf(action, ft_get_moment_time(p), p->id, RESET);
-	pthread_mutex_unlock(&p->print);
 }
 
 void	ft_eat(t_philo *p)
@@ -75,9 +69,8 @@ void	ft_eat(t_philo *p)
 			return ;
 		}
 		ft_print_action(p, ACT_FORK);
-		pthread_mutex_lock(&p->last_meal);
+		p->l_meal = ft_get_moment_time(p);
 		p->times_eat--;
-		pthread_mutex_unlock(&p->last_meal);
 		ft_print_action(p, ACT_EAT);
 		ft_usleep(p, p->data->eat);
 		pthread_mutex_unlock(p->fork2);
@@ -92,8 +85,9 @@ void	*ft_routine(void *data)
 	t_philo		*p;
 
 	p = data;
-	pthread_mutex_lock(&p->check_dead);
-	pthread_mutex_unlock(&p->check_dead);
+	pthread_mutex_lock(&p->data->routine);
+	pthread_mutex_unlock(&p->data->routine);
+	printf("time -> %u, last meal -> %u\n", p->data->t_start, p->l_meal);
 	while (p->data->d_flag == 0)
 	{
 		if (p->id % 2 != 0 && p->data->num > 1)
@@ -106,9 +100,13 @@ void	*ft_routine(void *data)
 		}
 		if (p->data->d_flag == 0)
 		{
+			pthread_mutex_lock(p->fork2);
 			ft_print_action(p, ACT_SLEEP);
+			pthread_mutex_unlock(p->fork2);
 			ft_usleep(p, p->data->sleep);
+			pthread_mutex_lock(p->fork2);
 			ft_print_action(p, ACT_THINK);
+			pthread_mutex_unlock(p->fork2);
 		}
 	}
 }
