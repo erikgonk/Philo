@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:54:03 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/14 12:09:52 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/14 13:17:40 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,26 @@ int	ft_usleep(t_philo *p, long long int to_sleep)
 	time = ft_get_moment_time(p);
 	if (p->data->d_flag == 1)
 		return (1);
-	if (!((time + tmp) < p->data->time && tmp < to_sleep))
+	pthread_mutex_lock(&p->check_dead);
+	if (time > p->data->time)
 	{
-		pthread_mutex_lock(&p->check_dead);
 		p->data->d_flag = 1;
 		p->d_flag = 1;
 		pthread_mutex_unlock(&p->check_dead);
 		return (1);
 	}
-	while ((time + tmp) < p->data->time && tmp < to_sleep && p->data->d_flag == 0)
+	while ((time + tmp) < p->data->time && tmp < to_sleep)
 	{
-		pthread_mutex_lock(&p->check_dead);
+		//printf("------------------> [%u] %u < %lld && %u < %lld\n", ft_get_moment_time(p), time + tmp, p->data->time, tmp, to_sleep);
 		usleep(1000);
 		tmp += 1;
-		pthread_mutex_unlock(&p->check_dead);
 	}
+	if (time + tmp >= p->data->time)
+	{
+		p->data->d_flag = 1;
+		p->d_flag = 1;
+	}
+	pthread_mutex_unlock(&p->check_dead);
 	return (0);
 // check if it dies while doing the usleep
 // if no: do the usleep and rutrn 0
@@ -55,17 +60,20 @@ void	ft_eat(t_philo *p)
 {
 	pthread_mutex_lock(&p->fork1);
 	if (p->data->d_flag == 1)
+	{
+		pthread_mutex_unlock(&p->fork1);
 		return ;
+	}
 	ft_print_action(p, ACT_FORK);
 	if (&p->fork1 != p->fork2 && p->data->d_flag == 0)
 	{
+		pthread_mutex_lock(p->fork2);
 		if (p->data->d_flag == 1)
 		{
-			pthread_mutex_lock(&p->fork1);
+			pthread_mutex_unlock(&p->fork1);
 			pthread_mutex_unlock(p->fork2);
 			return ;
 		}
-		pthread_mutex_lock(p->fork2);
 		ft_print_action(p, ACT_FORK);
 		pthread_mutex_lock(&p->last_meal);
 		p->times_eat--;
@@ -88,7 +96,7 @@ void	*ft_routine(void *data)
 	pthread_mutex_unlock(&p->check_dead);
 	while (p->data->d_flag == 0)
 	{
-		if (p->id % 2 != 0 && p->data->d_flag == 0)
+		if (p->id % 2 != 0 && p->data->num > 1)
 			ft_usleep(p, (p->data->eat - 1));
 		ft_eat(p);
 		if (p->times_eat >= 0 && p->times_eat < 0)
@@ -96,9 +104,11 @@ void	*ft_routine(void *data)
 			p->t_end = 1;
 			break ;
 		}
-		ft_print_action(p, ACT_SLEEP);
 		if (p->data->d_flag == 0)
+		{
+			ft_print_action(p, ACT_SLEEP);
 			ft_usleep(p, p->data->sleep);
-		ft_print_action(p, ACT_THINK);
+			ft_print_action(p, ACT_THINK);
+		}
 	}
 }

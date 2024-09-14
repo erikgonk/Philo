@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:08:15 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/14 12:10:04 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/14 13:01:51 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	main(int argc, char *argv[])
 	if (ft_parsing(argc, argv) == 1)
 		return (1);
 	ft_bzero(&data, sizeof(data));
-	data.p = malloc(data.num * sizeof(t_philo));
+	data.p = malloc(ft_atoll(argv[1]) * sizeof(t_philo));
 	if (!data.p)
 		return (ft_exit(E_MALLOC));
 	if (ft_save_args(&data, argv, -1))
