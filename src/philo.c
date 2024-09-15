@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:08:15 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/15 11:21:25 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/15 15:26:34 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,51 @@ int	ft_start_routine(t_data *data)
 	}
 	data->t_start = ft_get_current_time();
 	pthread_mutex_unlock(&data->routine);
+	return (0);
+}
+
+void	ft_destroy(t_data *data)
+{
+	int		i;
+
 	i = -1;
 	while (++i < data->num)
 		pthread_join(data->p[i].philo, NULL);
-	return (0);
+	i = -1;
+	while (++i < data->num)
+	{
+		pthread_mutex_destroy(&data->p[i].god);
+		pthread_mutex_destroy(&data->p[i].fork1);
+	}
+	pthread_mutex_destroy(&data->print);
+	pthread_mutex_destroy(&data->routine);
+	pthread_mutex_destroy(&data->check_dead);
+	ft_exit_free(data, NULL);
 }
+
+void	ft_godfather(t_data *data)
+{
+	int	i;
+	int	flag_meals;
+
+	flag_meals = 0;
+	while (!ft_check_death(data) && flag_meals == 0)
+	{
+		i = -1;
+		flag_meals = 1;
+		while (++i < data->num)
+		{
+			pthread_mutex_lock(&data->p->god);
+			if (data->p[i].times_eat != 0)
+				flag_meals = 0;
+			if (ft_get_moment_time(&data->p[i]) - data->p[i].l_meal >= data->time && data->p[i].times_eat != 0)
+				ft_printing(data, i, DIE, ACT_DIE);
+			pthread_mutex_unlock(&data->p->god);
+		}
+	}
+	ft_destroy(data);
+}
+
 
 int	main(int argc, char *argv[])
 {
@@ -86,6 +126,6 @@ int	main(int argc, char *argv[])
 // args parsed and saved & init mutexes
 	if (ft_start_routine(&data))
 		return (1);
-	ft_exit_free(&data, NULL);
+	ft_godfather(&data);
 	return (0);
 }

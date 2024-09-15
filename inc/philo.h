@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:41:46 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/15 10:57:04 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/15 14:54:17 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ enum
 
 typedef struct s_philo
 {
+	pthread_mutex_t		god;
 	pthread_mutex_t		fork1;
 	pthread_mutex_t		*fork2;
 	unsigned int		l_meal;
@@ -85,6 +86,7 @@ typedef struct s_data
 }		t_data;
 
 // routine
+int						ft_check_death(t_data *data);
 void					*ft_routine(void *data);
 void					ft_print_action(t_philo *p, char *action);
 // utils exec

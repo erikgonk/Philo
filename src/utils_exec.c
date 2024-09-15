@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:38:54 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/15 11:24:22 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/15 15:26:40 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	ft_save_normi(t_data *data, char  *argv[], int i)
 	else
 		data->p[i].times_eat = -1;
 	if (pthread_mutex_init(&data->p[i].fork1, NULL))
+		return (ft_exit(E_INIT_T));
+	if (pthread_mutex_init(&data->p[i].god, NULL))
 		return (ft_exit(E_INIT_T));
 	if (i > 0)
 		data->p[i].fork2 = &data->p[i - 1].fork1;
