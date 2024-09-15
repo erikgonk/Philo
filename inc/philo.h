@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:41:46 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/14 15:55:03 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/15 10:57:04 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef struct s_philo
 {
 	pthread_mutex_t		fork1;
 	pthread_mutex_t		*fork2;
-	unsigned int		t_end;
 	unsigned int		l_meal;
 	int					d_flag;// 0 alive 1 dead
 	pthread_t			philo;
@@ -76,7 +75,6 @@ typedef struct s_data
 	pthread_mutex_t		print;
 	pthread_mutex_t		routine;
 	pthread_mutex_t		check_dead;
-	int					stop_routine;// 0 some alive 1 all dead
 	unsigned int		t_start;
 	int					d_flag;// 0 continue 1 stop
 	long long int		num;

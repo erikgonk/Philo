@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:08:15 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/14 16:04:26 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/15 11:21:25 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,13 @@ int	ft_start_routine(t_data *data)
 	{
 		if (pthread_create(&data->p[i].philo, NULL, &ft_routine,
 				&data->p[i]))
-		{
-			data->stop_routine = 1;
 			ft_exit_free(data, E_CREATE);
-		}
 	}
 	data->t_start = ft_get_current_time();
 	pthread_mutex_unlock(&data->routine);
 	i = -1;
 	while (++i < data->num)
 		pthread_join(data->p[i].philo, NULL);
-	printf("no espero\n");
 	return (0);
 }
 
