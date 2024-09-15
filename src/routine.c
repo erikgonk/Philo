@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:54:03 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/15 15:12:18 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/15 15:58:11 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ void	ft_eat(t_philo *p)
 	{
 		pthread_mutex_lock(p->fork2);
 		ft_print_action(p, ACT_FORK);
+		pthread_mutex_lock(&p->god);
 		p->l_meal = ft_get_moment_time(p);
 		p->times_eat--;
+		pthread_mutex_unlock(&p->god);
 		ft_print_action(p, ACT_EAT);
 		ft_usleep(p, p->data->eat);
 		pthread_mutex_unlock(p->fork2);

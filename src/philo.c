@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:08:15 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/15 15:26:34 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/15 15:58:03 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ int	ft_save_args(t_data *data, char *argv[], int i)
 	data->time = ft_atoll(argv[2]);
 	data->eat = ft_atoll(argv[3]);
 	data->sleep = ft_atoll(argv[4]);
-	data->p[0].fork2 = &data->p[data->num].fork1;
 	while (++i < data->num)
 	{
 		data->p[i].data = data;
 		if (ft_save_normi(data, argv, i) == 1)
 			return (1);
 	}
+	data->p[0].fork2 = &data->p[data->num - 1].fork1;
 	if (data->num <= 0)
 		return (ft_exit_free(data, E_ARGS_NUM));
 	return (0);
