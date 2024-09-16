@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:38:54 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/15 15:54:36 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/16 10:57:24 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ int	ft_dead_check(t_philo p)
 
 int	ft_printing(t_data *data, int i, int flag, char *action)
 {
-// flag => is dead?
-// action => what action am I printing
 	pthread_mutex_lock(&data->print);
 	if (ft_dead_check(data->p[i]))
 	{
@@ -58,7 +56,7 @@ int	ft_printing(t_data *data, int i, int flag, char *action)
 	return (0);
 }
 
-int	ft_save_normi(t_data *data, char  *argv[], int i)
+int	ft_save_normi(t_data *data, char *argv[], int i)
 {
 	if (data->num < 1)
 		return (ft_exit(E_PHILOS));

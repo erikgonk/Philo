@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:41:46 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/15 14:54:17 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/16 10:59:53 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_philo
 	pthread_mutex_t		fork1;
 	pthread_mutex_t		*fork2;
 	unsigned int		l_meal;
-	int					d_flag;// 0 alive 1 dead
+	int					d_flag;
 	pthread_t			philo;
 	long long int		id;
 	long long int		times_eat;
@@ -85,6 +85,7 @@ typedef struct s_data
 	t_philo				*p;
 }		t_data;
 
+int						ft_exit_free(t_data *data, char *error);
 // routine
 int						ft_check_death(t_data *data);
 void					*ft_routine(void *data);
@@ -92,14 +93,16 @@ void					ft_print_action(t_philo *p, char *action);
 // utils exec
 unsigned int			ft_get_current_time(void);
 unsigned int			ft_get_moment_time(t_philo *p);
-int						ft_printing(t_data *data, int i, int flag, char *action);
-int						ft_printing(t_data *data, int i, int flag, char *action);
-int						ft_save_normi(t_data *data, char  *argv[], int i);
+int						ft_printing(t_data *data, int i, int flag,
+							char *action);
+int						ft_printing(t_data *data, int i, int flag,
+							char *action);
+int						ft_save_normi(t_data *data, char *argv[], int i);
 // utils
 int						ft_exit(char *error);
+void					ft_destroy(t_data *data, int num);
 int						ft_parsing(int argc, char *argv[]);
 void					ft_bzero(void *s, size_t n);
-int						ft_strcmp(char *s1, char *s2);
 long long int			ft_atoll(char *str);
 
 #endif

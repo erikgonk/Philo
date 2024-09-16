@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:36:34 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/08 13:31:32 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/16 11:00:07 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,25 @@ int	ft_parsing(int argc, char *argv[])
 		}
 	}
 	return (0);
+}
+
+void	ft_destroy(t_data *data, int num)
+{
+	int		i;
+
+	i = -1;
+	while (++i < num)
+		pthread_join(data->p[i].philo, NULL);
+	i = -1;
+	while (++i < num)
+	{
+		pthread_mutex_destroy(&data->p[i].god);
+		pthread_mutex_destroy(&data->p[i].fork1);
+	}
+	pthread_mutex_destroy(&data->print);
+	pthread_mutex_destroy(&data->routine);
+	pthread_mutex_destroy(&data->check_dead);
+	ft_exit_free(data, NULL);
 }
 
 int	ft_exit(char *error)
@@ -67,18 +86,6 @@ long long int	ft_atoll(char *str)
 	if (res < 0)
 		return (-1);
 	return (res);
-}
-
-int	ft_strcmp(char *s1, char *s2)
-{
-	unsigned int	i;
-
-	i = 0;
-	if (!s1 || !s2)
-		return (-1);
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return (s1[i] - s2[i]);
 }
 
 void	ft_bzero(void *s, size_t n)
