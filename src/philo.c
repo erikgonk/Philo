@@ -6,7 +6,7 @@
 /*   By: erigonza <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:08:15 by erigonza          #+#    #+#             */
-/*   Updated: 2024/09/16 11:01:18 by erigonza         ###   ########.fr       */
+/*   Updated: 2024/09/18 12:01:17 by erigonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ int	ft_save_args(t_data *data, char *argv[], int i)
 		return (ft_exit_free(data, E_INIT_T));
 	if (pthread_mutex_init(&data->check_dead, NULL))
 		return (ft_exit(E_INIT_T));
-	if (data->num > 200)
-		return (ft_exit_free(data, E_ID));
 	data->time = ft_atoll(argv[2]);
 	data->eat = ft_atoll(argv[3]);
 	data->sleep = ft_atoll(argv[4]);
@@ -64,7 +62,6 @@ int	ft_start_routine(t_data *data)
 		if (pthread_create(&data->p[i].philo, NULL, &ft_routine,
 				&data->p[i]))
 		{
-			ft_exit_free(NULL, E_CREATE);
 			exit = i;
 			data->d_flag = 1;
 			break ;
